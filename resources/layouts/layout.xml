@@ -1,3 +1,4 @@
 <layout id="MainLayout">
-    <bitmap id="id_monkey" x="center" y="center" filename="../drawables/monkey.png" />
+    <!-- <bitmap id="id_monkey" x="center" y="center" filename="../drawables/monkey.png" /> -->
+    <!-- <label id="MainLabel" x="start" y="center" text="@Strings.Title" /> -->
 </layout>
