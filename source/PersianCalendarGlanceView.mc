@@ -11,9 +11,7 @@ class PersianCalendarGlanceView extends WatchUi.GlanceView {
   }
 
   function onLayout(dc as Graphics.Dc) as Void {
-    // FIXME - adjust formatting to merge lines 2 & 3 for glance view
-    mainText = new PersianCalendarApp().getJalaliDateStr();;
-    // Application.getApp().log("workoutText(" + mainText + ")");
+    mainText = (new PersianCalendarApp()).getJalaliDateStr();
   }
 
   function onUpdate(dc as Graphics.Dc) as Void {
@@ -21,7 +19,7 @@ class PersianCalendarGlanceView extends WatchUi.GlanceView {
       dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       dc.drawText(
         0,
-        (dc.getHeight() / 2) - (Graphics.getFontHeight(Graphics.FONT_MEDIUM) / 2),
+        dc.getHeight() / 2 - Graphics.getFontHeight(Graphics.FONT_MEDIUM) / 2,
         Graphics.FONT_MEDIUM,
         mainText as String,
         Graphics.TEXT_JUSTIFY_LEFT
