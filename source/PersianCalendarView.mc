@@ -92,7 +92,9 @@ class PersianCalendarView extends Ui.View {
     font = Gfx.FONT_XTINY;
 
     X_Spacing = Math.round(dc.getWidth() / 9.0) + 1;
-    var Y_Spacing = 20;
+    var Y_Spacing = lineSpacing;
+    System.println("lineSpacing");
+    System.println(lineSpacing);
 
     // Draw the calendar header table
     my_x = Math.round(dc.getWidth() / 9.0);
@@ -104,7 +106,7 @@ class PersianCalendarView extends Ui.View {
         my_x,
         centerY - 1 * lineSpacing + my_y,
         font,
-        week[i],
+        week[i].toString(),
         Gfx.TEXT_JUSTIFY_LEFT
       );
       my_x += X_Spacing;
@@ -140,7 +142,7 @@ class PersianCalendarView extends Ui.View {
             my_x,
             centerY - 1 * lineSpacing + my_y,
             font,
-            iterator,
+            iterator.toString(),
             Gfx.TEXT_JUSTIFY_LEFT
           );
           iterator += 1;
@@ -159,10 +161,9 @@ class PersianCalendarView extends Ui.View {
   function onHide() {}
 }
 
-var current_month_view = 3;
-var current_year_view = 1396;
+var current_month_view = 1;
+var current_year_view = 1400;
 var show_today = true;
-var device = "";
 
 function updateTable(reset) {
   if (reset) {
@@ -173,8 +174,8 @@ function updateTable(reset) {
       today.day
     );
 
-    current_month_view = result[1];
-    current_year_view = result[0];
+    current_month_view = result.get("month");
+    current_year_view = result.get("year");
     show_today = true;
   } else {
     show_today = false;
@@ -188,85 +189,38 @@ function div(a, b) {
   return a / b;
 }
 
-function get_month_number(month) {
-  switch (month) {
-    case "Jan":
-      return 1;
-      break;
-    case "Feb":
-      return 2;
-      break;
-    case "Mar":
-      return 3;
-      break;
-    case "Apr":
-      return 4;
-      break;
-    case "May":
-      return 5;
-      break;
-    case "Jun":
-      return 6;
-      break;
-    case "Jul":
-      return 7;
-      break;
-    case "Aug":
-      return 8;
-      break;
-    case "Sep":
-      return 9;
-      break;
-    case "Oct":
-      return 10;
-      break;
-    case "Nov":
-      return 11;
-      break;
-    case "Dec":
-      return 12;
-      break;
-  }
-}
 
 function get_month_days(month) {
   switch (month) {
     case 1:
       return 31;
-      break;
     case 2:
-      return 31;
-      break;
+      // This will return 28 by default for February. 
+      // To handle leap years, additional logic would be needed.
+      return 28; 
     case 3:
       return 31;
-      break;
     case 4:
-      return 31;
-      break;
+      return 30;
     case 5:
       return 31;
-      break;
     case 6:
-      return 31;
-      break;
+      return 30;
     case 7:
-      return 30;
-      break;
+      return 31;
     case 8:
-      return 30;
-      break;
+      return 31;
     case 9:
       return 30;
-      break;
     case 10:
-      return 30;
-      break;
+      return 31;
     case 11:
       return 30;
-      break;
     case 12:
-      return 29;
-      break;
+      return 31;
+    default:
+      // You might want to handle invalid month numbers.
+      return null;
   }
 }
 
@@ -274,40 +228,30 @@ function get_month_string(month) {
   switch (month) {
     case 1:
       return "Farv";
-      break;
     case 2:
       return "Ordi";
-      break;
     case 3:
       return "Khor";
-      break;
     case 4:
-      return "Tir ";
-      break;
+      return "Tir";
     case 5:
-      return "Mor ";
-      break;
+      return "Mor";
     case 6:
       return "Shah";
-      break;
     case 7:
       return "Mehr";
-      break;
     case 8:
       return "Aban";
-      break;
     case 9:
       return "Azar";
-      break;
     case 10:
-      return "Dei ";
-      break;
+      return "Dei";
     case 11:
       return "Bahm";
-      break;
     case 12:
       return "Esfa";
-      break;
+    default:
+      return "Invalid month";  // Handling the case where the month is out of range
   }
 }
 
