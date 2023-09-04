@@ -4,6 +4,7 @@ import Toybox.WatchUi;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
 
+(:glance)
 class PersianCalendarApp extends Application.AppBase {
   function initialize() {
     AppBase.initialize();
@@ -69,9 +70,13 @@ class PersianCalendarApp extends Application.AppBase {
     var gy = 400 * (days / 146097).toNumber();
     days %= 146097;
     if (days > 36524) {
-        gy += 100 * ((--days / 36524).toNumber());
+        days = days - 1;
+        gy += (100 * (days / 36524).toNumber());
+    
         days %= 36524;
-        if (days >= 365) days++;
+        if (days >= 365) {
+            days = days + 1;
+        }
     }
     gy += 4 * (days / 1461).toNumber();
     days %= 1461;
