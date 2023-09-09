@@ -46,8 +46,8 @@ class PersianCalendarView extends Ui.View {
       dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
       var jalali = (new PersianCalendarApp()).getJalaliDateStr();
       dc.drawText(
-        centerX,
-        centerY - 1 * lineSpacing,
+        centerX + 5,
+        (centerY - 1 * lineSpacing) - 5,
         font,
         jalali,
         Gfx.TEXT_JUSTIFY_LEFT
@@ -68,6 +68,15 @@ class PersianCalendarView extends Ui.View {
       dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
     }
 
+    // dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+    // dc.drawLine(
+    //   centerX - (dc.getWidth() / 2),
+    //   (centerY - 1 * lineSpacing) + lineSpacing,
+    //   centerX + (dc.getWidth() / 2),
+    //   (centerY - 1 * lineSpacing) + lineSpacing,
+    // )
+
+
     var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var result = (new PersianCalendarApp()).gregorianToJalali(
       today.year,
@@ -86,35 +95,55 @@ class PersianCalendarView extends Ui.View {
 
   public function drawMonthTable(dc, month, year, current_month, current_day) {
     var my_x;
-    var my_y = 20;
+    // var my_x = 30;
+    var my_y = 30;
     var i = 0;
+    var marginLeft = 15;
 
     font = Gfx.FONT_XTINY;
 
     X_Spacing = Math.round(dc.getWidth() / 9.0) + 1;
     var Y_Spacing = lineSpacing;
-    System.println("lineSpacing");
-    System.println(lineSpacing);
 
     // Draw the calendar header table
-    my_x = Math.round(dc.getWidth() / 9.0);
-    my_y = my_y + Y_Spacing;
+    my_x = Math.round(dc.getWidth() / 9.0) + marginLeft;
+    // my_y = my_y + Y_Spacing;
+    // my_y = my_y ;
     var week = ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
     for (i = 0; i < 7; i++) {
-      dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+      if (dc.getWidth() == 208 && dc.getHeight() == 208) {
+        dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+      } else {
+        dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT); 
+      }
+
+
+      // TODO: Use this code
+      // var dev, verPartNumber, verModel;
+
+      // dev = Sys.getDeviceSettings();
+      // verPartNumber = dev.partNumber;
+      // else if ( verPartNumber.equals("006-B2156-00") ) {
+      // verModel = "Forerunner® 630";
+      // }
+      // else if ( verPartNumber.equals("006-B2431-00") ) {
+      // verModel = "Forerunner® 235";
+      // }
+
       dc.drawText(
         my_x,
         centerY - 1 * lineSpacing + my_y,
         font,
         week[i].toString(),
-        Gfx.TEXT_JUSTIFY_LEFT
+        // Gfx.TEXT_JUSTIFY_RIGHT
+        Gfx.TEXT_JUSTIFY_CENTER
       );
       my_x += X_Spacing;
     }
 
     // Draw the calendar month table
     my_y = my_y + Y_Spacing;
-    my_x = Math.round(dc.getWidth() / 9.0);
+    my_x = Math.round(dc.getWidth() / 9.0) + marginLeft;
     var iterator = 1;
 
     var week_day = get_week_day(month, year);
@@ -135,6 +164,21 @@ class PersianCalendarView extends Ui.View {
           current_month != 0
         ) {
           dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
+
+          // dc.drawText(
+          //   my_x,
+          //   (centerY - 1 * lineSpacing + my_y) + marginLeft,
+          //   Gfx.FONT_XTINY,
+          //   "....",
+          //   Gfx.TEXT_JUSTIFY_LEFT
+          // );
+
+          // dc.drawLine(
+          //   (my_x - (X_Spacing / 3)),
+          //   (centerY - 1 * lineSpacing + my_y) + lineSpacing - 4,
+          //   my_x + (X_Spacing / 3),
+          //   (centerY - 1 * lineSpacing + my_y) + lineSpacing - 4,
+          // )
         }
 
         if (iterator != 1 || week_day == i) {
@@ -143,7 +187,8 @@ class PersianCalendarView extends Ui.View {
             centerY - 1 * lineSpacing + my_y,
             font,
             iterator.toString(),
-            Gfx.TEXT_JUSTIFY_LEFT
+            // Gfx.TEXT_JUSTIFY_RIGHT
+            Gfx.TEXT_JUSTIFY_CENTER
           );
           iterator += 1;
           if (iterator > month_days) {
@@ -155,7 +200,7 @@ class PersianCalendarView extends Ui.View {
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
       }
       my_y = my_y + Y_Spacing;
-      my_x = Math.round(dc.getWidth() / 9.0);
+      my_x = Math.round(dc.getWidth() / 9.0) + marginLeft;
     }
   }
   function onHide() {}
@@ -189,15 +234,14 @@ function div(a, b) {
   return a / b;
 }
 
-
 function get_month_days(month) {
   switch (month) {
     case 1:
       return 31;
     case 2:
-      // This will return 28 by default for February. 
+      // This will return 28 by default for February.
       // To handle leap years, additional logic would be needed.
-      return 28; 
+      return 28;
     case 3:
       return 31;
     case 4:
@@ -251,7 +295,7 @@ function get_month_string(month) {
     case 12:
       return "Esfa";
     default:
-      return "Invalid month";  // Handling the case where the month is out of range
+      return "Invalid month"; // Handling the case where the month is out of range
   }
 }
 
