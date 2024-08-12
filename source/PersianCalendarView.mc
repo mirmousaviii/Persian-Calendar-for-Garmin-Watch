@@ -6,308 +6,140 @@ using Toybox.System;
 using Toybox.Math;
 
 class PersianCalendarView extends Ui.View {
-  var font = Gfx.FONT_XTINY;
-  var lineSpacing = Gfx.getFontHeight(font) + 2;
+    // Display properties
+    var font = Gfx.FONT_XTINY;
+    var lineSpacing = Gfx.getFontHeight(Gfx.FONT_XTINY) + 2;
+    var centerY = 60;
+    var centerX = 60;
+    var xSpacing = 30;
 
-  var centerY = 60;
-  var centerX = 60;
+    // Currently displayed month and year in the calendar
+    var currentMonthView = 1;
+    var currentYearView = 1400;
 
-  var X_Spacing = 30;
+    // Instance of PersianCalendarApp (created only once)
+    var persianCalendarApp;
 
-  function initialize() {
-    View.initialize();
+    // Initialization method (called once)
+    function initialize() {
+        View.initialize();
+        persianCalendarApp = new PersianCalendarApp();
 
-    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    var result = (new PersianCalendarApp()).gregorianToJalali(
-      today.year,
-      today.month,
-      today.day
-    );
-
-    current_month_view = result.get("month");
-    current_year_view = result.get("year");
-  }
-
-  function onLayout(dc) {
-    centerY = dc.getHeight() / 2 - lineSpacing / 2;
-    centerY -= 70;
-    centerX = dc.getWidth() / 2 - 2 * Gfx.getFontHeight(font);
-    setLayout(Rez.Layouts.MainLayout(dc));
-  }
-
-  function onShow() {}
-
-  function onUpdate(dc) {
-    if (show_today) {
-      font = Gfx.FONT_XTINY;
-
-      dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
-      dc.clear();
-      dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
-      var jalali = (new PersianCalendarApp()).getJalaliDateStr();
-      dc.drawText(
-        centerX + 5,
-        (centerY - 1 * lineSpacing) - 5,
-        font,
-        jalali,
-        Gfx.TEXT_JUSTIFY_LEFT
-      );
-    } else {
-      dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
-      dc.clear();
-      dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_TRANSPARENT);
-      var current_view_text =
-        get_month_string(current_month_view) + "-" + current_year_view;
-      dc.drawText(
-        centerX + 10,
-        centerY - 1 * lineSpacing,
-        font,
-        current_view_text,
-        Gfx.TEXT_JUSTIFY_LEFT
-      );
-      dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+        // Initialize calendar based on today's Gregorian date converted to Jalali
+        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var result = persianCalendarApp.gregorianToJalali(today.year, today.month, today.day);
+        currentMonthView = result.get("month");
+        currentYearView = result.get("year");
     }
 
-    // dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-    // dc.drawLine(
-    //   centerX - (dc.getWidth() / 2),
-    //   (centerY - 1 * lineSpacing) + lineSpacing,
-    //   centerX + (dc.getWidth() / 2),
-    //   (centerY - 1 * lineSpacing) + lineSpacing,
-    // )
-
-
-    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    var result = (new PersianCalendarApp()).gregorianToJalali(
-      today.year,
-      today.month,
-      today.day
-    );
-
-    drawMonthTable(
-      dc,
-      current_month_view,
-      current_year_view,
-      result.get("month"),
-      result.get("day")
-    );
-  }
-
-  public function drawMonthTable(dc, month, year, current_month, current_day) {
-    var my_x;
-    // var my_x = 30;
-    var my_y = 30;
-    var i = 0;
-    var marginLeft = 15;
-
-    font = Gfx.FONT_XTINY;
-
-    X_Spacing = Math.round(dc.getWidth() / 9.0) + 1;
-    var Y_Spacing = lineSpacing;
-
-    // Draw the calendar header table
-    my_x = Math.round(dc.getWidth() / 9.0) + marginLeft;
-    // my_y = my_y + Y_Spacing;
-    // my_y = my_y ;
-    var week = ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
-    for (i = 0; i < 7; i++) {
-      if (dc.getWidth() == 208 && dc.getHeight() == 208) {
-        dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
-      } else {
-        dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT); 
-      }
-
-
-      // TODO: Use this code
-      // var dev, verPartNumber, verModel;
-
-      // dev = Sys.getDeviceSettings();
-      // verPartNumber = dev.partNumber;
-      // else if ( verPartNumber.equals("006-B2156-00") ) {
-      // verModel = "Forerunner® 630";
-      // }
-      // else if ( verPartNumber.equals("006-B2431-00") ) {
-      // verModel = "Forerunner® 235";
-      // }
-
-      dc.drawText(
-        my_x,
-        centerY - 1 * lineSpacing + my_y,
-        font,
-        week[i].toString(),
-        // Gfx.TEXT_JUSTIFY_RIGHT
-        Gfx.TEXT_JUSTIFY_CENTER
-      );
-      my_x += X_Spacing;
+    // Layout setup when the view size is determined
+    function onLayout(dc) {
+        centerY = (dc.getHeight() / 2) - (lineSpacing / 2) - 70;
+        centerX = (dc.getWidth() / 2) - (2 * Gfx.getFontHeight(font));
+        setLayout(Rez.Layouts.MainLayout(dc));
     }
 
-    // Draw the calendar month table
-    my_y = my_y + Y_Spacing;
-    my_x = Math.round(dc.getWidth() / 9.0) + marginLeft;
-    var iterator = 1;
-
-    var week_day = get_week_day(month, year);
-
-    if (week_day == 7) {
-      week_day = 0;
-    } //set Saturday to 0
-    var month_days = get_month_days(month);
-
-    while (iterator <= month_days) {
-      for (i = 0; i < 7; i++) {
-        if (i == 6) {
-          dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_TRANSPARENT);
-        }
-        if (
-          month == current_month and
-          iterator == current_day and
-          current_month != 0
-        ) {
-          dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
-
-          // dc.drawText(
-          //   my_x,
-          //   (centerY - 1 * lineSpacing + my_y) + marginLeft,
-          //   Gfx.FONT_XTINY,
-          //   "....",
-          //   Gfx.TEXT_JUSTIFY_LEFT
-          // );
-
-          // dc.drawLine(
-          //   (my_x - (X_Spacing / 3)),
-          //   (centerY - 1 * lineSpacing + my_y) + lineSpacing - 4,
-          //   my_x + (X_Spacing / 3),
-          //   (centerY - 1 * lineSpacing + my_y) + lineSpacing - 4,
-          // )
-        }
-
-        if (iterator != 1 || week_day == i) {
-          dc.drawText(
-            my_x,
-            centerY - 1 * lineSpacing + my_y,
-            font,
-            iterator.toString(),
-            // Gfx.TEXT_JUSTIFY_RIGHT
-            Gfx.TEXT_JUSTIFY_CENTER
-          );
-          iterator += 1;
-          if (iterator > month_days) {
-            break;
-          }
-        }
-        my_x += X_Spacing;
-
-        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-      }
-      my_y = my_y + Y_Spacing;
-      my_x = Math.round(dc.getWidth() / 9.0) + marginLeft;
+    function onShow() {
+        // Optional: Additional code when the view is shown can be added here
     }
-  }
-  function onHide() {}
+
+    // Called to update the display
+    function onUpdate(dc) {
+        font = Gfx.FONT_XTINY;
+        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
+        dc.clear();
+
+        // Draw the Jalali date string at the top of the screen
+        dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
+        var jalaliDateStr = persianCalendarApp.getJalaliDateStr();
+        dc.drawText(centerX + 5, centerY - lineSpacing - 5, font, jalaliDateStr, Gfx.TEXT_JUSTIFY_LEFT);
+
+        // Get today's Gregorian date and convert it to Jalali for highlighting
+        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var todayJalali = persianCalendarApp.gregorianToJalali(today.year, today.month, today.day);
+        var currentMonth = todayJalali.get("month");
+        var currentDay = todayJalali.get("day");
+
+        drawMonthTable(dc, currentMonthView, currentYearView, currentMonth, currentDay);
+    }
+
+    // Draws the calendar month table
+    public function drawMonthTable(dc, viewMonth, viewYear, currentMonth, currentDay) {
+        var marginLeft = 15;
+        var startX = Math.round(dc.getWidth() / 9.0) + marginLeft;
+        var startY = 30;
+        var ySpacing = lineSpacing;
+
+        // Draw weekday header
+        var weekDays = ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
+        var xPos = startX;
+        for (var i = 0; i < weekDays.size(); i++) {
+            // Set color based on device dimensions
+            if (dc.getWidth() == 208 && dc.getHeight() == 208) {
+                dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+            } else {
+                dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+            }
+            dc.drawText(xPos, centerY - lineSpacing + startY, font, weekDays[i].toString(), Gfx.TEXT_JUSTIFY_CENTER);
+            xPos += Math.round(dc.getWidth() / 9.0) + 1;
+        }
+
+        // Draw calendar days
+        var dayIterator = 1;
+        var weekDay = get_week_day(viewMonth, viewYear);
+        if (weekDay == 7) { // Adjust if weekDay equals 7
+            weekDay = 0;
+        }
+        var monthDays = get_month_days(viewMonth);
+        var yPos = startY + ySpacing;
+
+        while (dayIterator <= monthDays) {
+            xPos = startX;
+            for (var i = 0; i < 7; i++) {
+                if (dayIterator != 1 || weekDay == i) {
+                    // Highlight today's cell
+                    if (viewMonth == currentMonth && dayIterator == currentDay) {
+                        dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
+                    } else if (i == 6) { // Example: Different color for last column
+                        dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_TRANSPARENT);
+                    } else {
+                        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+                    }
+                    dc.drawText(xPos, centerY - lineSpacing + yPos, font, dayIterator.toString(), Gfx.TEXT_JUSTIFY_CENTER);
+                    dayIterator++;
+                    if (dayIterator > monthDays) {
+                        break;
+                    }
+                }
+                xPos += Math.round(dc.getWidth() / 9.0) + 1;
+            }
+            yPos += ySpacing;
+        }
+    }
+
+    function onHide() {
+        // Optional: Clean up resources here if needed
+    }
 }
 
-var current_month_view = 1;
-var current_year_view = 1400;
-var show_today = true;
-
-function updateTable(reset) {
-  if (reset) {
-    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    var result = (new PersianCalendarApp()).gregorianToJalali(
-      today.year,
-      today.month,
-      today.day
-    );
-
-    current_month_view = result.get("month");
-    current_year_view = result.get("year");
-    show_today = true;
-  } else {
-    show_today = false;
-  }
-  Ui.requestUpdate();
-  return true;
-}
-
-//public functions
-function div(a, b) {
-  return a / b;
-}
-
+// Helper function to get the number of days in a month (for months 1-12)
 function get_month_days(month) {
-  switch (month) {
-    case 1:
-      return 31;
-    case 2:
-      // This will return 28 by default for February.
-      // To handle leap years, additional logic would be needed.
-      return 28;
-    case 3:
-      return 31;
-    case 4:
-      return 30;
-    case 5:
-      return 31;
-    case 6:
-      return 30;
-    case 7:
-      return 31;
-    case 8:
-      return 31;
-    case 9:
-      return 30;
-    case 10:
-      return 31;
-    case 11:
-      return 30;
-    case 12:
-      return 31;
-    default:
-      // You might want to handle invalid month numbers.
-      return null;
-  }
+    var monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if (month >= 1 && month <= 12) {
+        return monthDays[month - 1];
+    }
+    return 0;
 }
 
-function get_month_string(month) {
-  switch (month) {
-    case 1:
-      return "Farv";
-    case 2:
-      return "Ordi";
-    case 3:
-      return "Khor";
-    case 4:
-      return "Tir";
-    case 5:
-      return "Mor";
-    case 6:
-      return "Shah";
-    case 7:
-      return "Mehr";
-    case 8:
-      return "Aban";
-    case 9:
-      return "Azar";
-    case 10:
-      return "Dei";
-    case 11:
-      return "Bahm";
-    case 12:
-      return "Esfa";
-    default:
-      return "Invalid month"; // Handling the case where the month is out of range
-  }
-}
-
+// Helper function to calculate the weekday of the first day of the given Jalali month/year
 function get_week_day(month, year) {
-  var gregorian = (new PersianCalendarApp()).jalaliToGregorian(year, month, 1);
-
-  var options = {
-    :year => gregorian.get("year"),
-    :month => gregorian.get("month"),
-    :day => gregorian.get("day"),
-  };
-  var date = Gregorian.moment(options);
-  var first_day = Gregorian.info(date, Time.FORMAT_SHORT);
-  return first_day.day_of_week;
+    var gregorian = (new PersianCalendarApp()).jalaliToGregorian(year, month, 1);
+    var options = {
+        :year  => gregorian.get("year"),
+        :month => gregorian.get("month"),
+        :day   => gregorian.get("day")
+    };
+    var date = Gregorian.moment(options);
+    var firstDayInfo = Gregorian.info(date, Time.FORMAT_SHORT);
+    return firstDayInfo.day_of_week;
 }
