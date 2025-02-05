@@ -4,29 +4,39 @@ import Toybox.WatchUi;
 
 (:glance)
 class PersianCalendarGlanceView extends WatchUi.GlanceView {
-  var mainText as String?;
+  var jalaliText as String?;
+  var gregorianText as String?;
 
   function initialize() {
     GlanceView.initialize();
   }
 
   function onLayout(dc as Graphics.Dc) as Void {
-    mainText = (
-      (new PersianCalendarApp()).getGregorianDateStr() +
-      "\n" +
-      (new PersianCalendarApp()).getJalaliDateStr()
-    );
+    jalaliText = (new PersianCalendarApp()).getJalaliDateStr();
+    gregorianText = (new PersianCalendarApp()).getGregorianDateStr();
   }
 
   function onUpdate(dc as Graphics.Dc) as Void {
-    if (mainText != null) {
+    var textHeight = Graphics.getFontHeight(Graphics.FONT_MEDIUM);
+    var startY = (dc.getHeight() / 2) - textHeight;
+
+    if (jalaliText != null && gregorianText != null) {
       dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
       dc.drawText(
-        0,
-        dc.getHeight() / 4 - Graphics.getFontHeight(Graphics.FONT_SMALL) / 4,
-        Graphics.FONT_SMALL,
-        mainText as String,
-        Graphics.TEXT_JUSTIFY_LEFT
+          0,
+          startY,
+          Graphics.FONT_MEDIUM,
+          new PersianCalendarApp().getJalaliDateStr(),
+          Graphics.TEXT_JUSTIFY_LEFT
+      );
+
+      dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+      dc.drawText(
+          0,
+          startY + textHeight,
+          Graphics.FONT_TINY,
+          new PersianCalendarApp().getGregorianDateStr(),
+          Graphics.TEXT_JUSTIFY_LEFT
       );
     }
   }
