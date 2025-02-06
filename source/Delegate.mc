@@ -1,6 +1,18 @@
 using Toybox.WatchUi as Ui;
 
 class PersianCalendarDelegate extends Ui.InputDelegate {
+    var view as PersianCalendarView;
+
+    function initialize(viewInstance as PersianCalendarView) {
+        Ui.InputDelegate.initialize();
+        view = viewInstance;
+    }
+
+    function onTap(clickEvent as Ui.ClickEvent) {
+        view.toggleDisplayMode();
+        return true;
+    }
+
 //   function onTap(clickEvent as Ui.ClickEvent) {
 //     System.println(clickEvent.getType().toString()); // e.g. CLICK_TYPE_TAP = 0
 //     return true;

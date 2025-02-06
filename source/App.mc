@@ -19,10 +19,12 @@ class PersianCalendarApp extends Application.AppBase {
 
   // Returns the initial view of the application
   function getInitialView() as Array<Views or InputDelegates>? {
-    
+    var view = new PersianCalendarView();
+    var delegate = new PersianCalendarDelegate(view);
+
     return [
-      new PersianCalendarView(),
-      new PersianCalendarDelegate()
+      view,
+      delegate
     ] as Array<Views or InputDelegates>;
   }
 

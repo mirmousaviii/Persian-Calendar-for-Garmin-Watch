@@ -19,6 +19,7 @@ class PersianCalendarView extends Ui.View {
 
     // Instance of PersianCalendarApp (created only once)
     var persianCalendarApp;
+    var showGregorian = false;
 
     // Initialization method (called once)
     function initialize() {
@@ -49,10 +50,10 @@ class PersianCalendarView extends Ui.View {
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
         dc.clear();
 
-        // Draw the Jalali date string at the top of the screen
+        // Draw the date string at the top of the screen
         dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
-        var jalaliDateStr = persianCalendarApp.getJalaliDateStr();
-        dc.drawText(centerX + 5, centerY - lineSpacing - 5, font, jalaliDateStr, Gfx.TEXT_JUSTIFY_LEFT);
+        var dateStr = showGregorian ? persianCalendarApp.getGregorianDateStr() : persianCalendarApp.getJalaliDateStr();
+        dc.drawText(centerX + 5, centerY - lineSpacing - 5, font, dateStr, Gfx.TEXT_JUSTIFY_LEFT);
 
         // Get today's Gregorian date and convert it to Jalali for highlighting
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
@@ -91,6 +92,7 @@ class PersianCalendarView extends Ui.View {
             weekDay = 0;
         }
         var monthDays = get_month_days(viewMonth);
+
         var yPos = startY + ySpacing;
 
         while (dayIterator <= monthDays) {
@@ -115,6 +117,12 @@ class PersianCalendarView extends Ui.View {
             }
             yPos += ySpacing;
         }
+    }
+
+    // Toggle display mode between Gregorian and Jalali dates
+    public function toggleDisplayMode() {
+        showGregorian = !showGregorian;
+        Ui.requestUpdate();
     }
 
     function onHide() {
