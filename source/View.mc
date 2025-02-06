@@ -19,7 +19,7 @@ class PersianCalendarView extends Ui.View {
 
     // Instance of PersianCalendarApp (created only once)
     var persianCalendarApp;
-    var showGregorian = false;
+    var isGregorian = false;
 
     // Initialization method (called once)
     function initialize() {
@@ -52,8 +52,9 @@ class PersianCalendarView extends Ui.View {
 
         // Draw the date string at the top of the screen
         dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
-        var dateStr = showGregorian ? persianCalendarApp.getGregorianDateStr() : persianCalendarApp.getJalaliDateStr();
-        dc.drawText(centerX + 5, centerY - lineSpacing - 5, font, dateStr, Gfx.TEXT_JUSTIFY_LEFT);
+        var dateStr = isGregorian ? persianCalendarApp.getGregorianDateStr() : persianCalendarApp.getJalaliDateStr();
+        dc.drawText(centerX, centerY - lineSpacing - 5, font, dateStr, Gfx.TEXT_JUSTIFY_LEFT);
+
 
         // Get today's Gregorian date and convert it to Jalali for highlighting
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
@@ -107,7 +108,8 @@ class PersianCalendarView extends Ui.View {
                     } else {
                         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
                     }
-                    dc.drawText(xPos, centerY - lineSpacing + yPos, font, dayIterator.toString(), Gfx.TEXT_JUSTIFY_CENTER);
+                    var dateText = isGregorian ? persianCalendarApp.jalaliToGregorian(viewYear, viewMonth, dayIterator).get("day").toString() : dayIterator.toString();
+                    dc.drawText(xPos, centerY - lineSpacing + yPos, font, dateText, Gfx.TEXT_JUSTIFY_CENTER);
                     dayIterator++;
                     if (dayIterator > monthDays) {
                         break;
@@ -121,7 +123,7 @@ class PersianCalendarView extends Ui.View {
 
     // Toggle display mode between Gregorian and Jalali dates
     public function toggleDisplayMode() {
-        showGregorian = !showGregorian;
+        isGregorian = !isGregorian;
         Ui.requestUpdate();
     }
 
