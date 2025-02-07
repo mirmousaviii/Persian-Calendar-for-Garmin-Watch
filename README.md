@@ -10,7 +10,9 @@ This project provides a Persian (Jalali) calendar for Garmin watches. The calend
 
 ## Screenshots
 
-![Screenshot 1](screenshots/glance.png)
+![Screenshot 1](screenshots/1-glance.png)
+![Screenshot 2](screenshots/2-glance.png)
+![Screenshot 3](screenshots/3-month.png)
 
 ## Contributing
 
@@ -20,6 +22,16 @@ Contributions are welcome! Please follow these steps to contribute:
 2. Create a new branch for your feature or bugfix.
 3. Commit your changes and push them to your fork.
 4. Create a pull request with a detailed description of your changes.
+
+## Manual Deployment
+
+Copy the `.prg` file to the `/GARMIN/APPS/` directory on your Garmin device.
+
+## Todo
+
+- Fix UI bug for forrunner 55
+- Improve garegorian toggle (Handle physical key)
+- Add previous and next month navigation
 
 ## License
 
