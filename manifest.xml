@@ -5,7 +5,7 @@
         Use "Monkey C: Edit Application" from the Visual Studio Code command palette
         to update the application attributes.
     -->
-    <iq:application id="272f0a43-1fce-404b-8c51-b574cb6075bc" type="widget" name="@Strings.AppName" entry="PersianCalendarApp" launcherIcon="@Drawables.LauncherIcon" minApiLevel="3.1.0">
+    <iq:application id="1c4b0730-b997-4858-8a7f-4c4f1aa8c817" type="widget" name="@Strings.AppName" entry="PersianCalendarApp" launcherIcon="@Drawables.LauncherIcon" minApiLevel="3.1.0">
         <!--
             Use the following from the Visual Studio Code comand palette to edit
             the build targets:
