@@ -33,6 +33,11 @@ Copy the `.prg` file to the `/GARMIN/APPS/` directory on your Garmin device.
 - Improve garegorian toggle (Handle physical key)
 - Add previous and next month navigation
 
+## Related document
+
+- https://developer.garmin.com/connect-iq/reference-guides/devices-reference/#devicereference
+- https://developer.garmin.com/connect-iq/compatible-devices/
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
