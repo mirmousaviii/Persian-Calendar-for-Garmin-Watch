@@ -12,7 +12,9 @@ This project provides a Persian (Jalali) calendar for Garmin watches. The calend
 
 ![Screenshot 1](screenshots/1-glance.png)
 ![Screenshot 2](screenshots/2-glance.png)
-![Screenshot 3](screenshots/3-month.png)
+![Screenshot 3](screenshots/3-month-jalali.png)
+![Screenshot 4](screenshots/4-month-gregorian.png)
+![Screenshot 5](screenshots/5-month-next.png)
 
 ## Contributing
 
@@ -27,11 +29,25 @@ Contributions are welcome! Please follow these steps to contribute:
 
 Copy the `.prg` file to the `/GARMIN/APPS/` directory on your Garmin device.
 
+## Script: create_drawables.sh
+
+The `create_drawables.sh` script is used to create directories for different icon sizes and resize the launcher icon accordingly. It uses ImageMagick to resize the images. The script performs the following steps:
+
+1. Defines a list of directories to create along with their icon sizes.
+2. Checks if the template directory exists.
+3. Defines a function to resize images using ImageMagick.
+4. Creates directories, copies template files, and resizes images.
+
+To run the script, use the following command:
+
+```sh
+./resources/create_drawables.sh
+```
+
 ## Todo
 
 - Fix UI bug for forrunner 55
-- Improve garegorian toggle (Handle physical key)
-- Add previous and next month navigation
+- Improve Gregorian toggle (Handle physical key)
 - Cover more devices
 
 ## Related document
