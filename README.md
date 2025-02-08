@@ -47,7 +47,6 @@ To run the script, use the following command:
 ## Todo
 
 - Fix UI bug for forrunner 55
-- Improve Gregorian toggle (Handle physical key)
 - Cover more devices
 
 ## Related document
