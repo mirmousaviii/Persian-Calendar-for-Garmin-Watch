@@ -8,23 +8,41 @@ class PersianCalendarDelegate extends Ui.InputDelegate {
         view = viewInstance;
     }
 
+
+    // On tap, toggle between Gregorian and Jalali calendar views
     function onTap(clickEvent as Ui.ClickEvent) {
         view.toggleDisplayMode();
+
         return true;
     }
 
-//   function onTap(clickEvent as Ui.ClickEvent) {
-//     System.println(clickEvent.getType().toString()); // e.g. CLICK_TYPE_TAP = 0
-//     return true;
-//   }
+    // on key start, toggle between Gregorian and Jalali calendar views
+    function onKeyStart(keyEvent as Ui.KeyEvent) {
+        view.toggleDisplayMode();
 
-//   function onKey(keyEvent) {
-//     System.println(keyEvent.getKey().toString()); // e.g. KEY_MENU = 7
-//     return true;
-//   }
+        return true;
+    }
+    
+    // On swipe up or down, show the next or previous month
+    function onSwipe(swipeEvent as Ui.SwipeEvent) {
+        if (swipeEvent.getDirection() == Ui.SWIPE_UP) {
+            view.showNextMonth();
+        } else if (swipeEvent.getDirection() == Ui.SWIPE_DOWN) {
+            view.showPreviousMonth();
+        }
 
-//   function onSwipe(swipeEvent) {
-//     System.println(swipeEvent.getDirection().toString()); // e.g. SWIPE_DOWN = 2
-//     return true;
-//   }
+        return true;
+    }
+
+    // On key up or down, show the next or previous month
+    function onKey(keyEvent as Ui.KeyEvent) {
+        if (keyEvent.getKey() == Ui.KEY_UP) {
+            view.showPreviousMonth();
+        } else if (keyEvent.getKey() == Ui.KEY_DOWN) {
+            view.showNextMonth();
+        }
+
+        return true;
+    }
+
 }
