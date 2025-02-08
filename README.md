@@ -32,6 +32,7 @@ Copy the `.prg` file to the `/GARMIN/APPS/` directory on your Garmin device.
 - Fix UI bug for forrunner 55
 - Improve garegorian toggle (Handle physical key)
 - Add previous and next month navigation
+- Cover more devices
 
 ## Related document
 
