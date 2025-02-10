@@ -1,27 +1,32 @@
 #!/bin/bash
 
-# List of directories to create along with their icon sizes
-directories=(
-  "30x30-icon"
-  "35x35-icon"
-  "36x36-icon"
-  "40x33-icon"
-  "40x40-icon"
-  "56x56-icon"
-  "60x60-icon"
-  "61x61-icon"
-  "65x65-icon"
-  "70x70-icon"
+# Default sizes for -a (all)
+default_sizes=(
+  "30x30"
+  "35x35"
+  "36x36"
+  "40x33"
+  "40x40"
+  "54x54"
+  "56x56"
+  "60x60"
+  "61x61"
+  "65x65"
+  "70x70"
 )
 
 # Source template directory
 TEMPLATE_DIR="template"
 
-# Check if the template directory exists
-if [ ! -d "$TEMPLATE_DIR" ]; then
-  echo "Error: Template directory '$TEMPLATE_DIR' not found!"
-  exit 1
-fi
+# Function to display help
+show_help() {
+  echo "Usage: $0 [OPTION]"
+  echo "Options:"
+  echo "  -s SIZE, --size SIZE   Create only the directory for the specified icon size (e.g., '60x60')"
+  echo "  -a, --all              Create all default directories and resize all icons"
+  echo "  -h, --help             Show this help message"
+  exit 0
+}
 
 # Function to resize image using ImageMagick 7
 resize_image() {
@@ -38,14 +43,57 @@ resize_image() {
   fi
 }
 
+# Check if the template directory exists
+if [ ! -d "$TEMPLATE_DIR" ]; then
+  echo "Error: Template directory '$TEMPLATE_DIR' not found!"
+  exit 1
+fi
+
+# Parse command-line arguments
+selected_size=""
+create_all=false
+
+while [[ "$#" -gt 0 ]]; do
+  case "$1" in
+    -s|--size)
+      selected_size="$2"
+      shift 2
+      ;;
+    -a|--all)
+      create_all=true
+      shift
+      ;;
+    -h|--help)
+      show_help
+      ;;
+    *)
+      echo "Unknown option: $1"
+      show_help
+      ;;
+  esac
+done
+
+# Validate input
+if [[ -z "$selected_size" && "$create_all" == false ]]; then
+  echo "Error: You must specify either -s SIZE or -a (all)."
+  show_help
+fi
+
+# If -a is selected, use default_sizes
+if [[ "$create_all" == true ]]; then
+  sizes=("${default_sizes[@]}")
+else
+  sizes=("$selected_size")
+fi
+
 # Create directories, copy template files, and resize images
-for dir in "${directories[@]}"; do
+for size in "${sizes[@]}"; do
+  dir="${size}-icon"
+
   mkdir -p "$dir"
   cp -r "$TEMPLATE_DIR/"* "$dir/"
   echo "Created directory: $dir and copied template contents."
 
-  # Extract icon size from directory name
-  size=$(echo "$dir" | grep -oP '\d+x\d+')
   width=$(echo "$size" | cut -d'x' -f1)
   height=$(echo "$size" | cut -d'x' -f2)
 
@@ -54,5 +102,4 @@ for dir in "${directories[@]}"; do
   resize_image "$image_path" "$width" "$height"
 done
 
-echo "All directories created and images resized successfully!"
-
+echo "Operation completed successfully!"
