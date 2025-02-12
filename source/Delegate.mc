@@ -8,18 +8,15 @@ class PersianCalendarDelegate extends Ui.InputDelegate {
         view = viewInstance;
     }
 
-
     // On tap, toggle between Gregorian and Jalali calendar views
     function onTap(clickEvent as Ui.ClickEvent) {
         view.toggleDisplayMode();
-
         return true;
     }
 
-    // on key start, toggle between Gregorian and Jalali calendar views
+    // On key start, toggle between Gregorian and Jalali calendar views
     function onKeyStart(keyEvent as Ui.KeyEvent) {
         view.toggleDisplayMode();
-
         return true;
     }
     
@@ -29,8 +26,10 @@ class PersianCalendarDelegate extends Ui.InputDelegate {
             view.showNextMonth();
         } else if (swipeEvent.getDirection() == Ui.SWIPE_DOWN) {
             view.showPreviousMonth();
+        } else if (swipeEvent.getDirection() == Ui.SWIPE_RIGHT) {
+            // close the view
+            Ui.popView(Ui.SLIDE_LEFT);
         }
-
         return true;
     }
 
@@ -40,9 +39,10 @@ class PersianCalendarDelegate extends Ui.InputDelegate {
             view.showPreviousMonth();
         } else if (keyEvent.getKey() == Ui.KEY_DOWN) {
             view.showNextMonth();
+        } else if (keyEvent.getKey() == Ui.KEY_ESC) {
+            // minimize the view
+            Ui.popView(Ui.SLIDE_LEFT);
         }
-
         return true;
     }
-
 }
