@@ -15,6 +15,8 @@ This project provides a Persian (Jalali) calendar for Garmin watches. The calend
 ![Screenshot 3](screenshots/3-month-jalali.png)
 ![Screenshot 4](screenshots/4-month-gregorian.png)
 ![Screenshot 5](screenshots/5-month-next.png)
+![Screenshot 6](screenshots/6.edge.png)
+![Screenshot 7](screenshots/7.edge2.png)
 
 ## Contributing
 
