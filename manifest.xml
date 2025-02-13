@@ -16,6 +16,9 @@
         <iq:products>
             <iq:product id="approachs50"/>
             <iq:product id="descentg2"/>
+            <iq:product id="edge1050"/>
+            <iq:product id="edgeexplore"/>
+            <iq:product id="edgeexplore2"/>
             <iq:product id="epix2"/>
             <iq:product id="fenix7"/>
             <iq:product id="fenix7pro"/>

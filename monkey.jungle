@@ -14,6 +14,8 @@ vivoactive4.resourcePath = $(base.resourcePath);resources/35x35-icon
 
 # Devices with 36 x 36 icon size
 venusq.resourcePath = $(base.resourcePath);resources/36x36-icon
+edgeexplore.resourcePath = $(base.resourcePath);resources/36x36-icon
+edgeexplore2.resourcePath = $(base.resourcePath);resources/36x36-icon
 
 # Devices with 40 x 33 icon size
 vivoactive3.resourcePath = $(base.resourcePath);resources/40x33-icon
@@ -66,6 +68,9 @@ instinct3solar45mm.resourcePath = $(base.resourcePath);resources/62x62-icon
 # Devices with 65 x 65 icon size
 fenix847mm.resourcePath = $(base.resourcePath);resources/65x65-icon
 fr965.resourcePath = $(base.resourcePath);resources/65x65-icon
+
+# Devices with 68 x 68 icon size
+edge1050.resourcePath = $(base.resourcePath);resources/68x68-icon
 
 # Devices with 70 x 70 icon size
 venu2.resourcePath = $(base.resourcePath);resources/70x70-icon
