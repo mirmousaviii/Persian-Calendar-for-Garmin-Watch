@@ -36,6 +36,9 @@ fr955.resourcePath = $(base.resourcePath);resources/40x40-icon
 venusq2.resourcePath = $(base.resourcePath);resources/40x40-icon
 venusq2m.resourcePath = $(base.resourcePath);resources/40x40-icon
 
+# Devices with 52 x 52 icon size
+instincte40mm.resourcePath = $(base.resourcePath);resources/52x52-icon
+
 # Devices with 54 x 54 icon size
 fr165.resourcePath = $(base.resourcePath);resources/54x54-icon
 fr165m.resourcePath = $(base.resourcePath);resources/54x54-icon
@@ -49,9 +52,16 @@ fenix843mm.resourcePath = $(base.resourcePath);resources/60x60-icon
 fenixe.resourcePath = $(base.resourcePath);resources/60x60-icon
 fr265.resourcePath = $(base.resourcePath);resources/60x60-icon
 fr265s.resourcePath = $(base.resourcePath);resources/60x60-icon
+instinct3amoled45mm.resourcePath = $(base.resourcePath);resources/60x60-icon
+instinct3amoled50mm.resourcePath = $(base.resourcePath);resources/60x60-icon
+descentg2.resourcePath = $(base.resourcePath);resources/60x60-icon
 
 # Devices with 61 x 61 icon size
 venu2s.resourcePath = $(base.resourcePath);resources/61x61-icon
+
+# Devices with 62 x 62 icon size
+instincte45mm.resourcePath = $(base.resourcePath);resources/62x62-icon
+instinct3solar45mm.resourcePath = $(base.resourcePath);resources/62x62-icon
 
 # Devices with 65 x 65 icon size
 fenix847mm.resourcePath = $(base.resourcePath);resources/65x65-icon
