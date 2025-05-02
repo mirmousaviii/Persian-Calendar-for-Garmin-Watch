@@ -33,9 +33,11 @@ class PersianCalendarDelegate extends Ui.InputDelegate {
         return true;
     }
 
-    // On key up or down, show the next or previous month
     function onKey(keyEvent as Ui.KeyEvent) {
-        if (keyEvent.getKey() == Ui.KEY_UP) {
+        if (keyEvent.getKey() == Ui.KEY_ENTER) {
+            view.toggleDisplayMode();
+            return true;
+        } else if (keyEvent.getKey() == Ui.KEY_UP) {
             view.showPreviousMonth();
         } else if (keyEvent.getKey() == Ui.KEY_DOWN) {
             view.showNextMonth();
