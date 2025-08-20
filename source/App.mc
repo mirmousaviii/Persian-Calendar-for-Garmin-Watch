@@ -18,19 +18,19 @@ class PersianCalendarApp extends Application.AppBase {
   function onStop(state as Dictionary?) as Void {}
 
   // Returns the initial view of the application
-  function getInitialView() as Array<Views or InputDelegates>? {
+  function getInitialView() as [Views] or [Views, InputDelegates] {
     var view = new PersianCalendarView();
     var delegate = new PersianCalendarDelegate(view);
 
     return [
       view,
       delegate
-    ] as Array<Views or InputDelegates>;
+    ];
   }
 
   // Returns the glance view of the application
-  function getGlanceView() as Array<GlanceView>? {
-    return [new PersianCalendarGlanceView()] as Array<GlanceView>;
+  function getGlanceView() {
+    return [new PersianCalendarGlanceView()];
   }
 
   // Converts a Gregorian date to a Jalali date.
